@@ -53,6 +53,12 @@ class LstDataset:
         line = self._read_line
         boxes, labels = self._get_annotation(line)
         image = self._read_image(line)
+        if not self.transform is None:
+            image, boxes, labels = self.transform(
+                image, boxes, labels
+                )
+        if not self.target_transform is None:
+            boxes, labels = self.target_transform(boxes, labels)
         return image, boxes, labels
 
     def _read_line(self, idx):
